@@ -1,6 +1,7 @@
 package com.ecole.cheoloh.jwt_skeleton.account;
 
-
+import com.ecole.cheoloh.jwt_skeleton.board.Board;
+import com.ecole.cheoloh.jwt_skeleton.board.BoardRepository;
 import com.ecole.cheoloh.jwt_skeleton.config.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,10 @@ public class AccountController {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final AccountRepository accountRepository;
+    private final BoardRepository boardRepository;
 
     //회원가입
-    @PostMapping("/join")
+    @PostMapping("api/join")
     public Long join(@RequestBody Map<String, String> account){
         return accountRepository.save(Account.builder()
                 .email(account.get("email"))
@@ -33,7 +35,7 @@ public class AccountController {
     }
 
     //로그인
-    @PostMapping("/login")
+    @PostMapping("api//login")
     public String login(@RequestBody Map<String, String> account){
         Account user = accountRepository.findByEmail(account.get("email"))
                 .orElseThrow(()-> new IllegalArgumentException("가입되지 않은 E-MAIL입니다."));
@@ -50,10 +52,9 @@ public class AccountController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-    @GetMapping("/accounts/resource")
-    public ResponseEntity<?> getResource(@RequestHeader Map<String, String> token){
-
-
+    // Auth Test를 위한 PostMapping
+    @PostMapping("/user/post")
+    public void posting(){
 
     }
 }
